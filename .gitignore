@@ -3,3 +3,11 @@
 ################################################################################
 
 /obj/Release/Imagizer2.csproj.CoreCompileInputs.cache
+/bin/Debug
+/obj/Debug
+/.vs/Imagizer2/v15/Server/sqlite3
+/.vs/VSWorkspaceState.json
+/.vs/slnx.sqlite
+/.vs/ProjectSettings.json
+/.vs/Imagizer2/v15
+/.vs/ImageResizer/v15
