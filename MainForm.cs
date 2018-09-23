@@ -157,6 +157,21 @@ namespace Imagizer2
             }
         }
 
+        private void AllowValidNumbersOnly(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        int GetInteger(string stringValue)
+        {
+            int intValue = 0;
+            int.TryParse(stringValue, out intValue);
+            return intValue;
+        }
+
         #endregion
 
         #region Event Handlers
@@ -250,7 +265,38 @@ namespace Imagizer2
 
         private void btnGo_Click(object sender, EventArgs e)
         {
-            DoStartConversion();
+            if(ValidateParameter() == true)
+                DoStartConversion();
+        }
+
+        private void rbSetBothSize_CheckedChanged(object sender, EventArgs e)
+        {
+            pImageSize.Enabled = rbSetBothSize.Checked;
+        }
+
+        private void txtWidth_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            AllowValidNumbersOnly(sender, e);
+        }
+
+        private void txtHeight_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            AllowValidNumbersOnly(sender, e);
+        }
+
+        private void txtLongSide_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            AllowValidNumbersOnly(sender, e);
+        }
+
+        private void txtShortSize_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            AllowValidNumbersOnly(sender, e);
+        }
+
+        private void txtImageSize_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            AllowValidNumbersOnly(sender, e);
         }
 
         #endregion
@@ -272,6 +318,90 @@ namespace Imagizer2
             {
                 //just toss it here because it probably means outr settings are blank or corrupt
             }
+        }
+
+        private bool ValidateParameter()
+        {
+            errorProvider1.Clear();
+
+            if (!IsTextBoxFilled(txtInputDir))
+                return false;
+
+            if (!IsTextBoxFilled(txtOutputDir))
+                return false;
+
+            if (txtInputDir.Text == txtOutputDir.Text)
+            {
+                WriteErrorMessage("Input and Output Directory must not be the same folder.");
+                errorProvider1.SetError(txtInputDir, "Must not be the same as Output Directory");
+                errorProvider1.SetError(txtOutputDir, "Must not be the same as Input Directory");
+
+                return false;
+            }
+
+            // Validation for Resize Parameters
+            if (cbSize.Checked) 
+            {
+                if (rbSetBothSize.Checked)
+                {
+                    if (!IsTextBoxNumberic(txtWidth))
+                         return false;
+                    if (!IsTextBoxNumberic(txtHeight))
+                        return false;
+                }
+
+                if (rbSetLongSide.Checked)
+                    if (!IsTextBoxNumberic(txtLongSide))
+                        return false;
+ 
+                if( rbSetShortSize.Checked)
+                     if (!IsTextBoxNumberic(txtShortSize))
+                        return false;
+             }
+            return true;
+        }
+
+        private bool IsTextBoxNumberic(TextBox boxToCheck)
+        {
+            if (GetInteger(boxToCheck.Text) == 0)
+            {
+                errorProvider1.SetError(boxToCheck, "Must be greater then 0");
+                return false;
+            }
+            else
+                return true;
+        }
+
+        private bool IsTextBoxFilled(TextBox boxToCheck)
+        {
+            if (boxToCheck.Text == string.Empty)
+            {
+                errorProvider1.SetError(boxToCheck, "Must not be empty");
+                return false;
+            }
+            else
+                return true;
+        }
+
+        private void WriteInfoMessage(string message)
+        {
+            lblInfoMessage.Visible = true;
+            lblInfoMessage.Text = message;
+            lblInfoMessage.ForeColor = System.Drawing.Color.Black;
+        }
+
+        private void WriteErrorMessage(string message)
+        {
+            lblInfoMessage.Text = message;
+            lblInfoMessage.ForeColor = System.Drawing.Color.Red;
+            lblInfoMessage.Visible = true;
+        }
+
+        private void ClearInfoMessage()
+        {
+            lblInfoMessage.Text = "";
+            errorProvider1.SetError(lblInfoMessage, "");
+            lblInfoMessage.Visible = false;
         }
 
         private void DoStartConversion()
@@ -313,11 +443,6 @@ namespace Imagizer2
         {
             ConversionParameters conversionParameters = new ConversionParameters();
 
-            if (txtInputDir.Text == string.Empty || txtOutputDir.Text == string.Empty || txtInputDir.Text == txtOutputDir.Text)
-            {
-                throw new ApplicationException(string.Format("You must fill out both the input and output folder,{0}and they have to be different folders,{0}they cannot point to the same place.", Environment.NewLine));
-            }
-
             conversionParameters.InputDir = txtInputDir.Text;
             conversionParameters.OutputDir = txtOutputDir.Text;
 
@@ -348,41 +473,40 @@ namespace Imagizer2
                     conversionParameters.ImageFormat = ImageFormat.Tiff;
                     conversionParameters.NewExtention = ".tiff";
                 }
-                else if (rbWmf.Checked)
-                {
-                    conversionParameters.ImageFormat = ImageFormat.Wmf;
-                    conversionParameters.NewExtention = ".wmf";
-                }
-                else if (rbExif.Checked)
-                {
-                    conversionParameters.ImageFormat = ImageFormat.Exif;
-                    conversionParameters.NewExtention = ".exif";
-                }
-                else if (rbEmf.Checked)
-                {
-                    conversionParameters.ImageFormat = ImageFormat.Emf;
-                    conversionParameters.NewExtention = ".emf";
-                }
-                else if (rbIco.Checked)
-                {
-                    conversionParameters.ImageFormat = ImageFormat.Icon;
-                    conversionParameters.NewExtention = ".ico";
-                }
             }
 
             try
             {
                 if (cbSize.Checked)
                 {
-                    conversionParameters.NewHeight = int.Parse(txtHeight.Text);
-                    conversionParameters.NewWidth = int.Parse(txtWidth.Text);
-
-                    if (rbPixels.Checked)
-                        conversionParameters.ResizeMode = ResizeMode.Pixels;
-
-                    else if (cbSize.Checked && rbPercent.Checked)
-                        conversionParameters.ResizeMode = ResizeMode.Percent;
+                    if(rbSetBothSize.Checked)
+                    {
+                        conversionParameters.ResizeMode = ResizeMode.BothSide;
+                        conversionParameters.NewHeight = int.Parse(txtHeight.Text);
+                        conversionParameters.NewWidth = int.Parse(txtWidth.Text);
+                        if (rbPixels.Checked)
+                            conversionParameters.ResizeBothSideMode = ResizeBothSideMode.Pixels;
+                        else if (cbSize.Checked && rbPercent.Checked)
+                            conversionParameters.ResizeBothSideMode = ResizeBothSideMode.Percent;
+                    }
+                    else if (rbSetLongSide.Checked)
+                    {
+                        conversionParameters.ResizeMode = ResizeMode.LongSide;
+                        conversionParameters.NewLong = int.Parse(txtLongSide.Text);
+                    }
+                    else if (rbSetShortSize.Checked)
+                    {
+                        conversionParameters.ResizeMode = ResizeMode.ShortSide;
+                        conversionParameters.NewShort = int.Parse(txtShortSize.Text);
+                    }
+                    if(rbSetImageSize.Checked)
+                    {
+                        conversionParameters.ResizeMode = ResizeMode.ImageSize;
+                        conversionParameters.NewImageSize = int.Parse(txtImageSize.Text);
+                    }
                 }
+                else
+                    conversionParameters.ResizeMode = ResizeMode.None;
             }
             catch (Exception ex)
             {
@@ -436,18 +560,6 @@ namespace Imagizer2
             else if (conversionParameters.ImageFormat == ImageFormat.Tiff)
                 rbTiff.Checked = true;
 
-            else if (conversionParameters.ImageFormat == ImageFormat.Wmf)
-                rbWmf.Checked = true;
-
-            else if (conversionParameters.ImageFormat == ImageFormat.Exif)
-                rbExif.Checked = true;
-
-            else if (conversionParameters.ImageFormat == ImageFormat.Emf)
-                rbEmf.Checked = true;
-
-            else if (conversionParameters.ImageFormat == ImageFormat.Icon)
-                rbIco.Checked = true;
-
             txtHeight.Text = conversionParameters.NewHeight.ToString();
             txtWidth.Text = conversionParameters.NewWidth.ToString();
 
@@ -456,13 +568,13 @@ namespace Imagizer2
             rbPercent.Checked = false;
             rbPixels.Checked = false;
 
-            switch (conversionParameters.ResizeMode)
+            switch (conversionParameters.ResizeBothSideMode)
             {
-                case ResizeMode.Percent:
+                case ResizeBothSideMode.Percent:
                     rbPercent.Checked = true;
                     cbSize.Checked = true;
                     break;
-                case ResizeMode.Pixels:
+                case ResizeBothSideMode.Pixels:
                     rbPixels.Checked = true;
                     cbSize.Checked = true;
                     break;

@@ -110,30 +110,43 @@ namespace Imagizer2
                 int outputWidth = origImage.Width;
                 int outputHeight = origImage.Height;
 
-                if (_convParms.ResizeMode == ResizeMode.Percent)
+                switch (_convParms.ResizeMode)
                 {
-                    outputWidth = (int)(origImage.Width * ((decimal)_convParms.NewWidth / 100));
-                    outputHeight = (int)(origImage.Height * ((decimal)_convParms.NewHeight / 100));
-                }
-                else if (_convParms.ResizeMode == ResizeMode.Pixels)
-                {
-                    if (_convParms.AspectLockState == AspectLockState.LockHeight)
-                    {
-                        //calculate height
-                        outputWidth = _convParms.NewWidth;
-                        outputHeight = (int)(((double)origImage.Height / origImage.Width) * _convParms.NewWidth);
-                    }
-                    else if (_convParms.AspectLockState == AspectLockState.LockWidth)
-                    {
-                        //calculate width
-                        outputHeight = _convParms.NewHeight;
-                        outputWidth = (int)(((double)origImage.Width / origImage.Height) * _convParms.NewHeight);
-                    }
-                    else
-                    {
-                        outputWidth = _convParms.NewWidth;
-                        outputHeight = _convParms.NewHeight;
-                    }
+                    case ResizeMode.None:
+                        break;
+                    case ResizeMode.BothSide:
+                        if (_convParms.ResizeBothSideMode == ResizeBothSideMode.Percent)
+                        {
+                            outputWidth = (int)(origImage.Width * ((decimal)_convParms.NewWidth / 100));
+                            outputHeight = (int)(origImage.Height * ((decimal)_convParms.NewHeight / 100));
+                        }
+                        else if (_convParms.ResizeBothSideMode == ResizeBothSideMode.Pixels)
+                        {
+                            if (_convParms.AspectLockState == AspectLockState.LockHeight)
+                            {
+                                //calculate height
+                                outputWidth = _convParms.NewWidth;
+                                outputHeight = (int)(((double)origImage.Height / origImage.Width) * _convParms.NewWidth);
+                            }
+                            else if (_convParms.AspectLockState == AspectLockState.LockWidth)
+                            {
+                                //calculate width
+                                outputHeight = _convParms.NewHeight;
+                                outputWidth = (int)(((double)origImage.Width / origImage.Height) * _convParms.NewHeight);
+                            }
+                            else
+                            {
+                                outputWidth = _convParms.NewWidth;
+                                outputHeight = _convParms.NewHeight;
+                            }
+                        }
+                        break;
+                    case ResizeMode.LongSide:
+                        break;
+                    case ResizeMode.ShortSide:
+                        break;
+                    case ResizeMode.ImageSize:
+                        break;
                 }
 
                 Bitmap bp = new Bitmap(outputWidth, outputHeight);

@@ -27,28 +27,21 @@ namespace Imagizer2
     /// </summary>
     public class ConversionParameters
     {
-        int _numThreads;
-        string _inputDir;
-        string _outputDir;
-        ResizeMode _resizeMode;
-        int _newWidth;
-        int _newHeight;
-        ImageFormat _imageFormat;
-        string _newExtention;
-        bool _includeSubDirs;
-        AspectLockState _aspectLockState;
-
-        public int NumThreads { get { return _numThreads; } set { _numThreads = value; } }
-        public string InputDir { get { return _inputDir; } set { _inputDir = value; } }
-        public string OutputDir { get { return _outputDir; } set { _outputDir = value; } }
-        public ResizeMode ResizeMode { get { return _resizeMode; } set { _resizeMode = value; } }
-        public int NewWidth { get { return _newWidth; } set { _newWidth = value; } }
-        public int NewHeight { get { return _newHeight; } set { _newHeight = value; } }
+        public int NumThreads { get; set; }
+        public string InputDir { get; set; }
+        public string OutputDir { get; set; }
+        public ResizeMode ResizeMode { get; set; }
+        public ResizeBothSideMode ResizeBothSideMode { get; set; }
+        public int NewWidth { get; set; }
+        public int NewHeight { get; set; }
+        public int NewLong { get; set; }
+        public int NewShort { get; set; }
+        public int NewImageSize { get; set; }
         [XmlIgnore]
-        public ImageFormat ImageFormat { get { return _imageFormat; } set { _imageFormat = value; } }
-        public string NewExtention { get { return _newExtention; } set { _newExtention = value; } }
-        public bool IncludeSubDirs { get { return _includeSubDirs; } set { _includeSubDirs = value; } }
-        public AspectLockState AspectLockState { get { return _aspectLockState; } set { _aspectLockState = value; } }
+        public ImageFormat ImageFormat { get; set; }
+        public string NewExtention { get; set; }
+        public bool IncludeSubDirs { get; set; }
+        public AspectLockState AspectLockState { get; set; }
         /// <summary>
         /// This is used as a wrapper for the ImageFormat class which does not serialize
         /// We just convert it to/from an enum when serializing and de-serializing
@@ -57,32 +50,20 @@ namespace Imagizer2
         {
             get
             {
-                if (_imageFormat == ImageFormat.Jpeg)
+                if (ImageFormat == ImageFormat.Jpeg)
                     return ImageFormatEnum.Jpeg;
 
-                else if (_imageFormat == ImageFormat.Gif)
+                else if (ImageFormat == ImageFormat.Gif)
                     return ImageFormatEnum.Gif;
 
-                else if (_imageFormat == ImageFormat.Bmp)
+                else if (ImageFormat == ImageFormat.Bmp)
                     return ImageFormatEnum.Bmp;
 
-                else if (_imageFormat == ImageFormat.Png)
+                else if (ImageFormat == ImageFormat.Png)
                     return ImageFormatEnum.Png;
 
-                else if (_imageFormat == ImageFormat.Tiff)
+                else if (ImageFormat == ImageFormat.Tiff)
                     return ImageFormatEnum.Tiff;
-
-                else if (_imageFormat == ImageFormat.Wmf)
-                    return ImageFormatEnum.Wmf;
-
-                else if (_imageFormat == ImageFormat.Exif)
-                    return ImageFormatEnum.Exif;
-
-                else if (_imageFormat == ImageFormat.Emf)
-                    return ImageFormatEnum.Emf;
-
-                else if (_imageFormat == ImageFormat.Icon)
-                    return ImageFormatEnum.Icon;
 
                 //default to jpg
                 return ImageFormatEnum.Jpeg;
@@ -92,36 +73,23 @@ namespace Imagizer2
                 switch (value)
                 {
                     case ImageFormatEnum.Bmp:
-                        _imageFormat = ImageFormat.Bmp;
-                        break;
-                    case ImageFormatEnum.Emf:
-                        _imageFormat = ImageFormat.Emf;
-                        break;
-                    case ImageFormatEnum.Exif:
-                        _imageFormat = ImageFormat.Exif;
+                        ImageFormat = ImageFormat.Bmp;
                         break;
                     case ImageFormatEnum.Gif:
-                        _imageFormat = ImageFormat.Gif;
-                        break;
-                    case ImageFormatEnum.Icon:
-                        _imageFormat = ImageFormat.Icon;
+                        ImageFormat = ImageFormat.Gif;
                         break;
                     case ImageFormatEnum.Jpeg:
-                        _imageFormat = ImageFormat.Jpeg;
+                        ImageFormat = ImageFormat.Jpeg;
                         break;
                     case ImageFormatEnum.Png:
-                        _imageFormat = ImageFormat.Png;
+                        ImageFormat = ImageFormat.Png;
                         break;
                     case ImageFormatEnum.Tiff:
-                        _imageFormat = ImageFormat.Tiff;
-                        break;
-                    case ImageFormatEnum.Wmf:
-                        _imageFormat = ImageFormat.Wmf;
+                        ImageFormat = ImageFormat.Tiff;
                         break;
                     default:
                         break;
                 }
-
             }
         }
     }

@@ -21,17 +21,22 @@ namespace Imagizer2
     public enum ImageFormatEnum
     {
         Bmp,
-        Emf,
-        Exif,
         Gif,
-        Icon,
         Jpeg,
         Png,
-        Tiff,
-        Wmf
+        Tiff
     }
 
     public enum ResizeMode
+    {
+        None,
+        BothSide,
+        LongSide,
+        ShortSide,
+        ImageSize
+    }
+
+    public enum ResizeBothSideMode
     {
         None,
         Percent,

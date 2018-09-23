@@ -120,6 +120,9 @@
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="lblHeight.ToolTip" xml:space="preserve">
     <value>These settings control image resizing. You can either force them all to be a specific size, or have them be a percentage scale of their original size. To maintain the proper aspect ratios on images you will want to use the percent option.</value>
   </data>
@@ -138,16 +141,28 @@
   <data name="txtHeight.ToolTip" xml:space="preserve">
     <value>These settings control image resizing. You can either force them all to be a specific size, or have them be a percentage scale of their original size. To maintain the proper aspect ratios on images you will want to use the percent option.</value>
   </data>
-  <data name="txtWidth.ToolTip" xml:space="preserve">
+  <data name="txtImageSize.ToolTip" xml:space="preserve">
     <value>These settings control image resizing. You can either force them all to be a specific size, or have them be a percentage scale of their original size. To maintain the proper aspect ratios on images you will want to use the percent option.</value>
   </data>
-  <data name="lblWidth.ToolTip" xml:space="preserve">
+  <data name="txtShortSize.ToolTip" xml:space="preserve">
+    <value>These settings control image resizing. You can either force them all to be a specific size, or have them be a percentage scale of their original size. To maintain the proper aspect ratios on images you will want to use the percent option.</value>
+  </data>
+  <data name="txtLongSide.ToolTip" xml:space="preserve">
     <value>These settings control image resizing. You can either force them all to be a specific size, or have them be a percentage scale of their original size. To maintain the proper aspect ratios on images you will want to use the percent option.</value>
   </data>
   <data name="gbSize.ToolTip" xml:space="preserve">
     <value>These settings control image resizing. You can either force them all to be a specific size, or have them be a percentage scale of their original size. To maintain the proper aspect ratios on images you will want to use the percent option.</value>
   </data>
+  <data name="lblWidth.ToolTip" xml:space="preserve">
+    <value>These settings control image resizing. You can either force them all to be a specific size, or have them be a percentage scale of their original size. To maintain the proper aspect ratios on images you will want to use the percent option.</value>
+  </data>
+  <data name="txtWidth.ToolTip" xml:space="preserve">
+    <value>These settings control image resizing. You can either force them all to be a specific size, or have them be a percentage scale of their original size. To maintain the proper aspect ratios on images you will want to use the percent option.</value>
+  </data>
   <data name="cbSize.ToolTip" xml:space="preserve">
     <value>These settings control image resizing. You can either force them all to be a specific size, or have them be a percentage scale of their original size. To maintain the proper aspect ratios on images you will want to use the percent option.</value>
   </data>
+  <metadata name="errorProvider1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>114, 17</value>
+  </metadata>
 </root>
