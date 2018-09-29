@@ -275,7 +275,6 @@ namespace Imagizer2
             this.txtHeight.Size = new System.Drawing.Size(72, 20);
             this.txtHeight.TabIndex = 17;
             this.txtHeight.Text = "0";
-            this.toolTip1.SetToolTip(this.txtHeight, resources.GetString("txtHeight.ToolTip"));
             this.txtHeight.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtHeight_KeyPress);
             // 
             // rbTiff
@@ -343,7 +342,6 @@ namespace Imagizer2
             this.txtWidth.Size = new System.Drawing.Size(72, 20);
             this.txtWidth.TabIndex = 16;
             this.txtWidth.Text = "0";
-            this.toolTip1.SetToolTip(this.txtWidth, resources.GetString("txtWidth.ToolTip"));
             this.txtWidth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtWidth_KeyPress);
             // 
             // btnLockHeight
@@ -388,13 +386,11 @@ namespace Imagizer2
             this.txtImageSize.Size = new System.Drawing.Size(72, 20);
             this.txtImageSize.TabIndex = 25;
             this.txtImageSize.Text = "0";
-            this.toolTip1.SetToolTip(this.txtImageSize, resources.GetString("txtImageSize.ToolTip"));
             this.txtImageSize.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtImageSize_KeyPress);
             // 
             // rbSetImageSize
             // 
             this.rbSetImageSize.AutoSize = true;
-            this.rbSetImageSize.Enabled = false;
             this.rbSetImageSize.Location = new System.Drawing.Point(183, 69);
             this.rbSetImageSize.Name = "rbSetImageSize";
             this.rbSetImageSize.Size = new System.Drawing.Size(108, 17);
@@ -410,13 +406,11 @@ namespace Imagizer2
             this.txtShortSize.Size = new System.Drawing.Size(72, 20);
             this.txtShortSize.TabIndex = 23;
             this.txtShortSize.Text = "0";
-            this.toolTip1.SetToolTip(this.txtShortSize, resources.GetString("txtShortSize.ToolTip"));
             this.txtShortSize.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtShortSize_KeyPress);
             // 
             // rbSetShortSize
             // 
             this.rbSetShortSize.AutoSize = true;
-            this.rbSetShortSize.Enabled = false;
             this.rbSetShortSize.Location = new System.Drawing.Point(183, 45);
             this.rbSetShortSize.Name = "rbSetShortSize";
             this.rbSetShortSize.Size = new System.Drawing.Size(104, 17);
@@ -432,13 +426,12 @@ namespace Imagizer2
             this.txtLongSide.Size = new System.Drawing.Size(72, 20);
             this.txtLongSide.TabIndex = 21;
             this.txtLongSide.Text = "0";
-            this.toolTip1.SetToolTip(this.txtLongSide, resources.GetString("txtLongSide.ToolTip"));
             this.txtLongSide.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLongSide_KeyPress);
             // 
             // rbSetLongSide
             // 
             this.rbSetLongSide.AutoSize = true;
-            this.rbSetLongSide.Enabled = false;
+            this.rbSetLongSide.Checked = true;
             this.rbSetLongSide.Location = new System.Drawing.Point(183, 19);
             this.rbSetLongSide.Name = "rbSetLongSide";
             this.rbSetLongSide.Size = new System.Drawing.Size(101, 17);

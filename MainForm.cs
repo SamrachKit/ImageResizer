@@ -1,7 +1,7 @@
 ﻿/*********************************************************************************
-    This file is part of Imagizer2.
+    This file is part of Imagizer.
 
-    Imagizer2 is free software: you can redistribute it and/or modify
+    Imagizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
@@ -21,6 +21,7 @@ using System.Drawing.Imaging;
 using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
+using System.Diagnostics;
 
 namespace Imagizer2
 {
@@ -36,7 +37,7 @@ namespace Imagizer2
         public MainForm()
         {
             InitializeComponent();
-            this.Text = string.Format("Imagizer2 v{0}", Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            this.Text = string.Format("Imagizer v{0}", Assembly.GetExecutingAssembly().GetName().Version.ToString());
             txtThreadCount.Text = Environment.ProcessorCount.ToString();
             DataContainer.Running = false;
 
@@ -82,7 +83,9 @@ namespace Imagizer2
             {
                 int endTicks = Environment.TickCount;
                 SetProgBar(100);
-                MessageBox.Show("Complete!" + Environment.NewLine + DataContainer.TotalFiles.ToString() + " files in " + ((decimal)endTicks - (decimal)_startTicks) / 1000 + " seconds.");
+                MessageBox.Show(DataContainer.TotalFiles.ToString() + " files in " + ((decimal)endTicks - (decimal)_startTicks) / 1000 + " seconds.", 
+                    "Complete!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 Reset();
                 DataContainer.Running = false;
             }
@@ -191,10 +194,9 @@ namespace Imagizer2
                 ImagizerSettings.Default.SettingXml = SerializationUtility.SerializeObject(conversionParameters);
                 ImagizerSettings.Default.Save();
             }
-            catch
+            catch (Exception ex)
             {
-                //we threw ourselves an error, so we will not continue.
-                //A messagebox should have aklready been displayed
+                Debug.WriteLine("Can't load setting: " + ex.Message);
                 return;
             }
         }
@@ -314,8 +316,9 @@ namespace Imagizer2
                 conversionParameters = SerializationUtility.DeserializeObject<ConversionParameters>(ImagizerSettings.Default.SettingXml);
                 SetConversionParameters(conversionParameters);
             }
-            catch
+            catch(Exception e)
             {
+                Debug.WriteLine("Can't save setting: " + e.Message);
                 //just toss it here because it probably means outr settings are blank or corrupt
             }
         }
@@ -357,7 +360,11 @@ namespace Imagizer2
                 if( rbSetShortSize.Checked)
                      if (!IsTextBoxNumberic(txtShortSize))
                         return false;
-             }
+
+                if(rbSetImageSize.Checked)
+                    if (!IsTextBoxNumberic(txtImageSize))
+                        return false;
+            }
             return true;
         }
 
@@ -408,7 +415,7 @@ namespace Imagizer2
         {
             if (DataContainer.Running)
             {
-                MessageBox.Show("Already Running!", "Imagizer2 Error!");
+                MessageBox.Show("Already Running!", "Imagizer Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -419,7 +426,7 @@ namespace Imagizer2
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Imagizer Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 

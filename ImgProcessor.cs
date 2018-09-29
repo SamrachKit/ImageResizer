@@ -1,18 +1,18 @@
 ﻿/*********************************************************************************
-    This file is part of Imagizer2.
+    This file is part of Imagizer.
 
-    Imagizer2 is free software: you can redistribute it and/or modify
+    Imagizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Imagizer2 is distributed in the hope that it will be useful,
+    Imagizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Imagizer2.  If not, see <http://www.gnu.org/licenses/>.
+    along with Imagizer.  If not, see <http://www.gnu.org/licenses/>.
 
 *********************************************************************************/
 
@@ -30,10 +30,9 @@ namespace Imagizer2
     public class ImgProcessor
     {
         private ConversionParameters _convParms;
-        private Thread _processThread;
         private static Object _lockObj = new Object();
 
-        private Thread ProcessThread { get { return _processThread; } set { _processThread = value; } }
+        private Thread ProcessThread { get; set; }
 
         private ImgProcessor(ConversionParameters convParms)
         {
@@ -107,6 +106,7 @@ namespace Imagizer2
                 if (_convParms.ImageFormat != null)
                     newImgFormat = _convParms.ImageFormat;
 
+                double imageAspectRatio = (double)origImage.Width / origImage.Height;
                 int outputWidth = origImage.Width;
                 int outputHeight = origImage.Height;
 
@@ -126,13 +126,13 @@ namespace Imagizer2
                             {
                                 //calculate height
                                 outputWidth = _convParms.NewWidth;
-                                outputHeight = (int)(((double)origImage.Height / origImage.Width) * _convParms.NewWidth);
+                                outputHeight = (int)(1 / imageAspectRatio * _convParms.NewWidth);
                             }
                             else if (_convParms.AspectLockState == AspectLockState.LockWidth)
                             {
                                 //calculate width
                                 outputHeight = _convParms.NewHeight;
-                                outputWidth = (int)(((double)origImage.Width / origImage.Height) * _convParms.NewHeight);
+                                outputWidth = (int)(imageAspectRatio * _convParms.NewHeight);
                             }
                             else
                             {
@@ -142,10 +142,35 @@ namespace Imagizer2
                         }
                         break;
                     case ResizeMode.LongSide:
+                        int longSide = _convParms.NewLong;
+                        if (outputWidth > outputHeight)
+                        {   //calculate height
+                            outputWidth = longSide;
+                            outputHeight = (int)(1 / imageAspectRatio * longSide);
+                        }
+                        else
+                        {   //calculate width
+                            outputHeight = longSide;
+                            outputWidth = (int)(imageAspectRatio * longSide);
+                        }
                         break;
                     case ResizeMode.ShortSide:
+                        int shortSide = _convParms.NewShort;
+                        if (outputWidth < outputHeight)
+                        {   //calculate height
+                            outputWidth = shortSide;
+                            outputHeight = (int)(1 / imageAspectRatio * shortSide);
+                        }
+                        else
+                        {   //calculate width
+                            outputHeight = shortSide;
+                            outputWidth = (int)(imageAspectRatio * shortSide);
+                        }
                         break;
                     case ResizeMode.ImageSize:
+                        double newImageSize = _convParms.NewImageSize * 1000000;
+                        outputHeight = (int)Math.Sqrt(newImageSize / imageAspectRatio);
+                        outputWidth = (int)(newImageSize / outputHeight);
                         break;
                 }
 
@@ -164,7 +189,7 @@ namespace Imagizer2
                 }
                 bp.Save(newFileName, newImgFormat);
 
-                int prog = (int)(100 * (((decimal)DataContainer.TotalFiles - (decimal)DataContainer.FileList.Count) / (decimal)DataContainer.TotalFiles));
+                int prog = (int)(100 * ((DataContainer.TotalFiles - (decimal)DataContainer.FileList.Count) / DataContainer.TotalFiles));
                 EventProcessor.Instance.OnSetProgessBar(this, prog);
 
                 origImage.Dispose();
