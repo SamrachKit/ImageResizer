@@ -16,8 +16,7 @@
 
 *********************************************************************************/
 
-
-namespace Imagizer2
+namespace Imagizer
 {
     public class EventProcessor
     {

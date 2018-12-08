@@ -1,25 +1,25 @@
 ﻿/*********************************************************************************
-    This file is part of Imagizer2.
+    This file is part of Imagizer.
 
-    Imagizer2 is free software: you can redistribute it and/or modify
+    Imagizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Imagizer2 is distributed in the hope that it will be useful,
+    Imagizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Imagizer2.  If not, see <http://www.gnu.org/licenses/>.
+    along with Imagizer.  If not, see <http://www.gnu.org/licenses/>.
 
 *********************************************************************************/
 
 using System.Drawing.Imaging;
 using System.Xml.Serialization;
 
-namespace Imagizer2
+namespace Imagizer
 {
     /// <summary>
     /// This class is serialized in and out of the settings file so that selected options persist.
@@ -36,7 +36,7 @@ namespace Imagizer2
         public int NewHeight { get; set; }
         public int NewLong { get; set; }
         public int NewShort { get; set; }
-        public int NewImageSize { get; set; }
+        public float NewImageSize { get; set; }
         [XmlIgnore]
         public ImageFormat ImageFormat { get; set; }
         public string NewExtention { get; set; }

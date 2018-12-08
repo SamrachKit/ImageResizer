@@ -25,7 +25,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Threading;
 
-namespace Imagizer2
+namespace Imagizer
 {
     public class ImgProcessor
     {

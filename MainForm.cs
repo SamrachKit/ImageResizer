@@ -6,13 +6,13 @@
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Imagizer2 is distributed in the hope that it will be useful,
+    Imagizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Imagizer2.  If not, see <http://www.gnu.org/licenses/>.
+    along with Imagizer.  If not, see <http://www.gnu.org/licenses/>.
 
 *********************************************************************************/
 
@@ -23,7 +23,7 @@ using System.Reflection;
 using System.IO;
 using System.Diagnostics;
 
-namespace Imagizer2
+namespace Imagizer
 {
     public partial class MainForm : Form
     {
@@ -31,6 +31,7 @@ namespace Imagizer2
         private readonly EventProcessor.SetProgressBarEventHandler _setProgressBarHandler;
         private delegate void LocalDelegate();
         private delegate void LocalDelegateParm(int val);
+        private delegate void LocalDelegateStringParm(string val);
         private int _startTicks;
         private AspectLockState _aspectLockState;
 
@@ -74,7 +75,17 @@ namespace Imagizer2
             btnGo.Text = "Start";
             btnGo.Enabled = true;
             gbThreadingSetup.Enabled = true;
-            progBar.Value = 0;
+        }
+
+        private void SetMessageBox(string message)
+        {
+            if (!this.IsDisposed)
+                this.Invoke((LocalDelegateStringParm)DelegateSetMessageBox, message);
+        }
+
+        private void DelegateSetMessageBox(string message)
+        {
+            WriteInfoMessage(message);
         }
 
         private void ConversionComplete()
@@ -83,9 +94,9 @@ namespace Imagizer2
             {
                 int endTicks = Environment.TickCount;
                 SetProgBar(100);
-                MessageBox.Show(DataContainer.TotalFiles.ToString() + " files in " + ((decimal)endTicks - (decimal)_startTicks) / 1000 + " seconds.", 
-                    "Complete!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                SetMessageBox(String.Format("Done: {0} files in {1:F0} seconds.",
+                    DataContainer.TotalFiles,
+                    ((float)endTicks - _startTicks) / 1000));
                 Reset();
                 DataContainer.Running = false;
             }
@@ -168,11 +179,26 @@ namespace Imagizer2
             }
         }
 
-        int GetInteger(string stringValue)
+        private void AllowValidDecimalsOnly(object sender, KeyPressEventArgs e)
         {
-            int intValue = 0;
-            int.TryParse(stringValue, out intValue);
-            return intValue;
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&  e.KeyChar != '.')
+            {
+                e.Handled = true;
+                return;
+            }
+            // checks to make sure only 1 decimal is allowed
+            if (e.KeyChar == 46)
+            {
+                if ((sender as TextBox).Text.IndexOf(e.KeyChar) != -1)
+                    e.Handled = true;
+            }
+        }
+
+        float GetFloat(string stringValue)
+        {
+            float floatValue = 0;
+            float.TryParse(stringValue, out floatValue);
+            return floatValue;
         }
 
         #endregion
@@ -298,7 +324,7 @@ namespace Imagizer2
 
         private void txtImageSize_KeyPress(object sender, KeyPressEventArgs e)
         {
-            AllowValidNumbersOnly(sender, e);
+            AllowValidDecimalsOnly(sender, e);
         }
 
         #endregion
@@ -370,7 +396,7 @@ namespace Imagizer2
 
         private bool IsTextBoxNumberic(TextBox boxToCheck)
         {
-            if (GetInteger(boxToCheck.Text) == 0)
+            if (GetFloat(boxToCheck.Text) == 0)
             {
                 errorProvider1.SetError(boxToCheck, "Must be greater then 0");
                 return false;
@@ -392,9 +418,9 @@ namespace Imagizer2
 
         private void WriteInfoMessage(string message)
         {
-            lblInfoMessage.Visible = true;
             lblInfoMessage.Text = message;
             lblInfoMessage.ForeColor = System.Drawing.Color.Black;
+            lblInfoMessage.Visible = true;
         }
 
         private void WriteErrorMessage(string message)
@@ -413,6 +439,9 @@ namespace Imagizer2
 
         private void DoStartConversion()
         {
+            ClearInfoMessage();
+            progBar.Value = 0;
+
             if (DataContainer.Running)
             {
                 MessageBox.Show("Already Running!", "Imagizer Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -509,7 +538,7 @@ namespace Imagizer2
                     if(rbSetImageSize.Checked)
                     {
                         conversionParameters.ResizeMode = ResizeMode.ImageSize;
-                        conversionParameters.NewImageSize = int.Parse(txtImageSize.Text);
+                        conversionParameters.NewImageSize = float.Parse(txtImageSize.Text);
                     }
                 }
                 else

@@ -18,7 +18,7 @@
 
 using System.Collections.Generic;
 
-namespace Imagizer2
+namespace Imagizer
 {
     /// <summary>
     /// mainly used to store data that the multiple threads wil access

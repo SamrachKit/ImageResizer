@@ -1,22 +1,22 @@
 ﻿/*********************************************************************************
-    This file is part of Imagizer2.
+    This file is part of Imagizer.
 
-    Imagizer2 is free software: you can redistribute it and/or modify
+    Imagizer is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Imagizer2 is distributed in the hope that it will be useful,
+    Imagizer is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Imagizer2.  If not, see <http://www.gnu.org/licenses/>.
+    along with Imagizer.  If not, see <http://www.gnu.org/licenses/>.
 
 *********************************************************************************/
 
-namespace Imagizer2
+namespace Imagizer
 {
     partial class MainForm
     {
@@ -156,7 +156,6 @@ namespace Imagizer2
             this.lblHeight.Size = new System.Drawing.Size(38, 13);
             this.lblHeight.TabIndex = 15;
             this.lblHeight.Text = "Height";
-            this.toolTip1.SetToolTip(this.lblHeight, resources.GetString("lblHeight.ToolTip"));
             // 
             // rbPixels
             // 
@@ -306,7 +305,6 @@ namespace Imagizer2
             this.gbSize.TabIndex = 5;
             this.gbSize.TabStop = false;
             this.gbSize.Text = "Size";
-            this.toolTip1.SetToolTip(this.gbSize, resources.GetString("gbSize.ToolTip"));
             // 
             // pImageSize
             // 
@@ -333,7 +331,6 @@ namespace Imagizer2
             this.lblWidth.Size = new System.Drawing.Size(35, 13);
             this.lblWidth.TabIndex = 16;
             this.lblWidth.Text = "Width";
-            this.toolTip1.SetToolTip(this.lblWidth, resources.GetString("lblWidth.ToolTip"));
             // 
             // txtWidth
             // 
@@ -473,7 +470,6 @@ namespace Imagizer2
             this.cbSize.Size = new System.Drawing.Size(128, 16);
             this.cbSize.TabIndex = 13;
             this.cbSize.Text = "Resize";
-            this.toolTip1.SetToolTip(this.cbSize, resources.GetString("cbSize.ToolTip"));
             this.cbSize.CheckedChanged += new System.EventHandler(this.cbSize_CheckedChanged);
             // 
             // cbFormat
@@ -586,7 +582,7 @@ namespace Imagizer2
             // lblInfoMessage
             // 
             this.lblInfoMessage.BackColor = System.Drawing.Color.Transparent;
-            this.lblInfoMessage.Location = new System.Drawing.Point(2, 412);
+            this.lblInfoMessage.Location = new System.Drawing.Point(2, 414);
             this.lblInfoMessage.Name = "lblInfoMessage";
             this.lblInfoMessage.Size = new System.Drawing.Size(460, 24);
             this.lblInfoMessage.TabIndex = 23;
@@ -598,7 +594,7 @@ namespace Imagizer2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(466, 443);
+            this.ClientSize = new System.Drawing.Size(466, 446);
             this.Controls.Add(this.lblInfoMessage);
             this.Controls.Add(this.gbInputDirectory);
             this.Controls.Add(this.progBar);
@@ -608,7 +604,7 @@ namespace Imagizer2
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "MainForm";
-            this.Text = "Imagizer2";
+            this.Text = "Imagizer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.gbInputDirectory.ResumeLayout(false);
             this.gbInputDirectory.PerformLayout();

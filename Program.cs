@@ -20,7 +20,7 @@ using System;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace Imagizer2
+namespace Imagizer
 {
     static class Program
     {

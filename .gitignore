@@ -2,12 +2,13 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/obj/Release/Imagizer2.csproj.CoreCompileInputs.cache
+/obj/Release/Imagizer.csproj.CoreCompileInputs.cache
 /bin/Debug
 /obj/Debug
-/.vs/Imagizer2/v15/Server/sqlite3
+/.vs/Imagizer/v15/Server/sqlite3
 /.vs/VSWorkspaceState.json
 /.vs/slnx.sqlite
 /.vs/ProjectSettings.json
-/.vs/Imagizer2/v15
+/.vs/Imagizer/v15
 /.vs/ImageResizer/v15
+/obj/Release

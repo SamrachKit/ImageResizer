@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Imagizer2
+namespace Imagizer
 {
     public enum ImageFormatEnum
     {
