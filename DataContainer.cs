@@ -21,8 +21,8 @@ using System.Collections.Generic;
 namespace Imagizer
 {
     /// <summary>
-    /// mainly used to store data that the multiple threads wil access
-    /// stats used to improve thread safety
+    /// Mainly used to store data that the multiple threads will access
+    /// Stats used to improve thread safety
     /// </summary>
     public static class DataContainer
     {

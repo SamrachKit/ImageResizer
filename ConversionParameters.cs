@@ -27,20 +27,31 @@ namespace Imagizer
     /// </summary>
     public class ConversionParameters
     {
-        public int NumThreads { get; set; }
         public string InputDir { get; set; }
-        public string OutputDir { get; set; }
+
+        public bool IncludeSubDirs { get; set; }
+
+        public string NewExtention { get; set; }
+
+        public bool Resize { get; set; }
+
         public ResizeMode ResizeMode { get; set; }
+
         public ResizeBothSideMode ResizeBothSideMode { get; set; }
-        public int NewWidth { get; set; }
-        public int NewHeight { get; set; }
-        public int NewLong { get; set; }
-        public int NewShort { get; set; }
-        public float NewImageSize { get; set; }
+
+        public int ResizeWidth { get; set; }
+        public int ResizeHeight { get; set; }
+        public int ResizeLong { get; set; }
+        public int ResizeShort { get; set; }
+        public float ResizeImageSize { get; set; }
+        
+        public string OutputDir { get; set; }
+
+        public int NumThreads { get; set; }
+
         [XmlIgnore]
         public ImageFormat ImageFormat { get; set; }
-        public string NewExtention { get; set; }
-        public bool IncludeSubDirs { get; set; }
+
         public AspectLockState AspectLockState { get; set; }
         /// <summary>
         /// This is used as a wrapper for the ImageFormat class which does not serialize

@@ -117,32 +117,32 @@ namespace Imagizer
                     case ResizeMode.BothSide:
                         if (_convParms.ResizeBothSideMode == ResizeBothSideMode.Percent)
                         {
-                            outputWidth = (int)(origImage.Width * ((decimal)_convParms.NewWidth / 100));
-                            outputHeight = (int)(origImage.Height * ((decimal)_convParms.NewHeight / 100));
+                            outputWidth = (int)(origImage.Width * ((decimal)_convParms.ResizeWidth / 100));
+                            outputHeight = (int)(origImage.Height * ((decimal)_convParms.ResizeHeight / 100));
                         }
                         else if (_convParms.ResizeBothSideMode == ResizeBothSideMode.Pixels)
                         {
                             if (_convParms.AspectLockState == AspectLockState.LockHeight)
                             {
                                 //calculate height
-                                outputWidth = _convParms.NewWidth;
-                                outputHeight = (int)(1 / imageAspectRatio * _convParms.NewWidth);
+                                outputWidth = _convParms.ResizeWidth;
+                                outputHeight = (int)(1 / imageAspectRatio * _convParms.ResizeWidth);
                             }
                             else if (_convParms.AspectLockState == AspectLockState.LockWidth)
                             {
                                 //calculate width
-                                outputHeight = _convParms.NewHeight;
-                                outputWidth = (int)(imageAspectRatio * _convParms.NewHeight);
+                                outputHeight = _convParms.ResizeHeight;
+                                outputWidth = (int)(imageAspectRatio * _convParms.ResizeHeight);
                             }
                             else
                             {
-                                outputWidth = _convParms.NewWidth;
-                                outputHeight = _convParms.NewHeight;
+                                outputWidth = _convParms.ResizeWidth;
+                                outputHeight = _convParms.ResizeHeight;
                             }
                         }
                         break;
                     case ResizeMode.LongSide:
-                        int longSide = _convParms.NewLong;
+                        int longSide = _convParms.ResizeLong;
                         if (outputWidth > outputHeight)
                         {   //calculate height
                             outputWidth = longSide;
@@ -155,7 +155,7 @@ namespace Imagizer
                         }
                         break;
                     case ResizeMode.ShortSide:
-                        int shortSide = _convParms.NewShort;
+                        int shortSide = _convParms.ResizeShort;
                         if (outputWidth < outputHeight)
                         {   //calculate height
                             outputWidth = shortSide;
@@ -168,7 +168,7 @@ namespace Imagizer
                         }
                         break;
                     case ResizeMode.ImageSize:
-                        double newImageSize = _convParms.NewImageSize * 1000000;
+                        double newImageSize = _convParms.ResizeImageSize * 1000000;
                         outputHeight = (int)Math.Sqrt(newImageSize / imageAspectRatio);
                         outputWidth = (int)(newImageSize / outputHeight);
                         break;

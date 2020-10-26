@@ -80,7 +80,7 @@ namespace Imagizer
             this.rbSetLongSide = new System.Windows.Forms.RadioButton();
             this.rbSetBothSize = new System.Windows.Forms.RadioButton();
             this.gbOutputSettings = new System.Windows.Forms.GroupBox();
-            this.cbSize = new System.Windows.Forms.CheckBox();
+            this.cbResize = new System.Windows.Forms.CheckBox();
             this.cbFormat = new System.Windows.Forms.CheckBox();
             this.gbOutputDirectory = new System.Windows.Forms.GroupBox();
             this.btnOutputBrowse = new System.Windows.Forms.Button();
@@ -110,7 +110,7 @@ namespace Imagizer
             this.gbInputDirectory.Location = new System.Drawing.Point(2, 2);
             this.gbInputDirectory.Name = "gbInputDirectory";
             this.gbInputDirectory.Size = new System.Drawing.Size(460, 62);
-            this.gbInputDirectory.TabIndex = 6;
+            this.gbInputDirectory.TabIndex = 0;
             this.gbInputDirectory.TabStop = false;
             this.gbInputDirectory.Text = "Input Directory";
             this.toolTip1.SetToolTip(this.gbInputDirectory, "Specify the input directory here. If \'Include Subdirectories\' is selected then th" +
@@ -154,7 +154,7 @@ namespace Imagizer
             this.lblHeight.Location = new System.Drawing.Point(12, 34);
             this.lblHeight.Name = "lblHeight";
             this.lblHeight.Size = new System.Drawing.Size(38, 13);
-            this.lblHeight.TabIndex = 15;
+            this.lblHeight.TabIndex = 3;
             this.lblHeight.Text = "Height";
             // 
             // rbPixels
@@ -162,7 +162,7 @@ namespace Imagizer
             this.rbPixels.Location = new System.Drawing.Point(83, 57);
             this.rbPixels.Name = "rbPixels";
             this.rbPixels.Size = new System.Drawing.Size(64, 16);
-            this.rbPixels.TabIndex = 15;
+            this.rbPixels.TabIndex = 5;
             this.rbPixels.Text = "Pixels";
             this.toolTip1.SetToolTip(this.rbPixels, "Resizing by pixel will set every single image to a specific size. When used with " +
         "aspect lock mode you can enter one dimention and the other one will be calculate" +
@@ -174,7 +174,7 @@ namespace Imagizer
             this.btnSettings.Location = new System.Drawing.Point(322, 17);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(72, 24);
-            this.btnSettings.TabIndex = 12;
+            this.btnSettings.TabIndex = 1;
             this.btnSettings.Text = "Settings";
             this.toolTip1.SetToolTip(this.btnSettings, "These settings will allow you to change the image format. Leave the box un-checke" +
         "d for the images to remain in their original format, or select a format and all " +
@@ -188,7 +188,7 @@ namespace Imagizer
             this.rbPercent.Location = new System.Drawing.Point(19, 57);
             this.rbPercent.Name = "rbPercent";
             this.rbPercent.Size = new System.Drawing.Size(62, 17);
-            this.rbPercent.TabIndex = 14;
+            this.rbPercent.TabIndex = 4;
             this.rbPercent.TabStop = true;
             this.rbPercent.Text = "Percent";
             this.toolTip1.SetToolTip(this.rbPercent, "Resizing by percent will scale each picture according to it\'s own original diment" +
@@ -200,14 +200,14 @@ namespace Imagizer
             this.progBar.Location = new System.Drawing.Point(2, 412);
             this.progBar.Name = "progBar";
             this.progBar.Size = new System.Drawing.Size(460, 24);
-            this.progBar.TabIndex = 8;
+            this.progBar.TabIndex = 2;
             // 
             // lblThreads
             // 
             this.lblThreads.Location = new System.Drawing.Point(8, 16);
             this.lblThreads.Name = "lblThreads";
             this.lblThreads.Size = new System.Drawing.Size(96, 16);
-            this.lblThreads.TabIndex = 0;
+            this.lblThreads.TabIndex = 2;
             this.lblThreads.Text = "Threads:";
             this.toolTip1.SetToolTip(this.lblThreads, resources.GetString("lblThreads.ToolTip"));
             // 
@@ -216,7 +216,7 @@ namespace Imagizer
             this.btnGo.Location = new System.Drawing.Point(334, 366);
             this.btnGo.Name = "btnGo";
             this.btnGo.Size = new System.Drawing.Size(128, 40);
-            this.btnGo.TabIndex = 22;
+            this.btnGo.TabIndex = 2;
             this.btnGo.Text = "Start";
             this.toolTip1.SetToolTip(this.btnGo, "Once you have selected your options, press go and the conversion will begin.");
             this.btnGo.Click += new System.EventHandler(this.btnGo_Click);
@@ -226,7 +226,7 @@ namespace Imagizer
             this.txtThreadCount.Location = new System.Drawing.Point(72, 16);
             this.txtThreadCount.Name = "txtThreadCount";
             this.txtThreadCount.Size = new System.Drawing.Size(24, 20);
-            this.txtThreadCount.TabIndex = 20;
+            this.txtThreadCount.TabIndex = 0;
             this.txtThreadCount.Text = "2";
             this.toolTip1.SetToolTip(this.txtThreadCount, resources.GetString("txtThreadCount.ToolTip"));
             this.txtThreadCount.TextChanged += new System.EventHandler(this.txtThreadCount_TextChanged);
@@ -238,7 +238,7 @@ namespace Imagizer
             this.sbThreads.Minimum = 1;
             this.sbThreads.Name = "sbThreads";
             this.sbThreads.Size = new System.Drawing.Size(20, 24);
-            this.sbThreads.TabIndex = 21;
+            this.sbThreads.TabIndex = 1;
             this.toolTip1.SetToolTip(this.sbThreads, resources.GetString("sbThreads.ToolTip"));
             this.sbThreads.Value = 1;
             this.sbThreads.Scroll += new System.Windows.Forms.ScrollEventHandler(this.sbThreads_Scroll);
@@ -251,7 +251,7 @@ namespace Imagizer
             this.gbThreadingSetup.Location = new System.Drawing.Point(2, 366);
             this.gbThreadingSetup.Name = "gbThreadingSetup";
             this.gbThreadingSetup.Size = new System.Drawing.Size(121, 40);
-            this.gbThreadingSetup.TabIndex = 9;
+            this.gbThreadingSetup.TabIndex = 2;
             this.gbThreadingSetup.TabStop = false;
             this.gbThreadingSetup.Text = "Threading Setup";
             this.toolTip1.SetToolTip(this.gbThreadingSetup, resources.GetString("gbThreadingSetup.ToolTip"));
@@ -261,7 +261,7 @@ namespace Imagizer
             this.rbBmp.Location = new System.Drawing.Point(128, 21);
             this.rbBmp.Name = "rbBmp";
             this.rbBmp.Size = new System.Drawing.Size(56, 16);
-            this.rbBmp.TabIndex = 5;
+            this.rbBmp.TabIndex = 2;
             this.rbBmp.Text = "BMP";
             this.toolTip1.SetToolTip(this.rbBmp, "These settings will allow you to change the image format. Leave the box un-checke" +
         "d for the images to remain in their original format, or select a format and all " +
@@ -272,7 +272,7 @@ namespace Imagizer
             this.txtHeight.Location = new System.Drawing.Point(52, 31);
             this.txtHeight.Name = "txtHeight";
             this.txtHeight.Size = new System.Drawing.Size(72, 20);
-            this.txtHeight.TabIndex = 17;
+            this.txtHeight.TabIndex = 2;
             this.txtHeight.Text = "0";
             this.txtHeight.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtHeight_KeyPress);
             // 
@@ -281,7 +281,7 @@ namespace Imagizer
             this.rbTiff.Location = new System.Drawing.Point(252, 21);
             this.rbTiff.Name = "rbTiff";
             this.rbTiff.Size = new System.Drawing.Size(64, 16);
-            this.rbTiff.TabIndex = 7;
+            this.rbTiff.TabIndex = 4;
             this.rbTiff.Text = "TIFF";
             this.toolTip1.SetToolTip(this.rbTiff, "These settings will allow you to change the image format. Leave the box un-checke" +
         "d for the images to remain in their original format, or select a format and all " +
@@ -302,7 +302,7 @@ namespace Imagizer
             this.gbSize.Location = new System.Drawing.Point(6, 105);
             this.gbSize.Name = "gbSize";
             this.gbSize.Size = new System.Drawing.Size(442, 120);
-            this.gbSize.TabIndex = 5;
+            this.gbSize.TabIndex = 3;
             this.gbSize.TabStop = false;
             this.gbSize.Text = "Size";
             // 
@@ -317,11 +317,10 @@ namespace Imagizer
             this.pImageSize.Controls.Add(this.txtWidth);
             this.pImageSize.Controls.Add(this.btnLockHeight);
             this.pImageSize.Controls.Add(this.btnLockWidth);
-            this.pImageSize.Enabled = false;
             this.pImageSize.Location = new System.Drawing.Point(8, 42);
             this.pImageSize.Name = "pImageSize";
             this.pImageSize.Size = new System.Drawing.Size(159, 78);
-            this.pImageSize.TabIndex = 23;
+            this.pImageSize.TabIndex = 1;
             // 
             // lblWidth
             // 
@@ -329,7 +328,7 @@ namespace Imagizer
             this.lblWidth.Location = new System.Drawing.Point(12, 10);
             this.lblWidth.Name = "lblWidth";
             this.lblWidth.Size = new System.Drawing.Size(35, 13);
-            this.lblWidth.TabIndex = 16;
+            this.lblWidth.TabIndex = 0;
             this.lblWidth.Text = "Width";
             // 
             // txtWidth
@@ -337,7 +336,7 @@ namespace Imagizer
             this.txtWidth.Location = new System.Drawing.Point(52, 7);
             this.txtWidth.Name = "txtWidth";
             this.txtWidth.Size = new System.Drawing.Size(72, 20);
-            this.txtWidth.TabIndex = 16;
+            this.txtWidth.TabIndex = 0;
             this.txtWidth.Text = "0";
             this.txtWidth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtWidth_KeyPress);
             // 
@@ -347,7 +346,7 @@ namespace Imagizer
             this.btnLockHeight.Location = new System.Drawing.Point(129, 32);
             this.btnLockHeight.Name = "btnLockHeight";
             this.btnLockHeight.Size = new System.Drawing.Size(18, 19);
-            this.btnLockHeight.TabIndex = 18;
+            this.btnLockHeight.TabIndex = 3;
             this.btnLockHeight.Text = "L";
             this.toolTip1.SetToolTip(this.btnLockHeight, "This will lock the aspect ratio. This will allow you to enter in one dimention an" +
         "d have it auto-calculate the other one for each image.");
@@ -360,7 +359,7 @@ namespace Imagizer
             this.btnLockWidth.Location = new System.Drawing.Point(129, 7);
             this.btnLockWidth.Name = "btnLockWidth";
             this.btnLockWidth.Size = new System.Drawing.Size(18, 19);
-            this.btnLockWidth.TabIndex = 18;
+            this.btnLockWidth.TabIndex = 1;
             this.btnLockWidth.Text = "L";
             this.toolTip1.SetToolTip(this.btnLockWidth, "This will lock the aspect ratio. This will allow you to enter in one dimention an" +
         "d have it auto-calculate the other one for each image.");
@@ -373,15 +372,16 @@ namespace Imagizer
             this.label1.Location = new System.Drawing.Point(375, 71);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(61, 13);
-            this.label1.TabIndex = 26;
+            this.label1.TabIndex = 1;
             this.label1.Text = "MegaPixels";
             // 
             // txtImageSize
             // 
+            this.txtImageSize.Enabled = false;
             this.txtImageSize.Location = new System.Drawing.Point(297, 69);
             this.txtImageSize.Name = "txtImageSize";
             this.txtImageSize.Size = new System.Drawing.Size(72, 20);
-            this.txtImageSize.TabIndex = 25;
+            this.txtImageSize.TabIndex = 6;
             this.txtImageSize.Text = "0";
             this.txtImageSize.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtImageSize_KeyPress);
             // 
@@ -391,17 +391,19 @@ namespace Imagizer
             this.rbSetImageSize.Location = new System.Drawing.Point(183, 69);
             this.rbSetImageSize.Name = "rbSetImageSize";
             this.rbSetImageSize.Size = new System.Drawing.Size(108, 17);
-            this.rbSetImageSize.TabIndex = 24;
+            this.rbSetImageSize.TabIndex = 5;
             this.rbSetImageSize.TabStop = true;
             this.rbSetImageSize.Text = "Set image size to:";
             this.rbSetImageSize.UseVisualStyleBackColor = true;
+            this.rbSetImageSize.CheckedChanged += new System.EventHandler(this.rbSetImageSize_CheckedChanged);
             // 
             // txtShortSize
             // 
+            this.txtShortSize.Enabled = false;
             this.txtShortSize.Location = new System.Drawing.Point(297, 45);
             this.txtShortSize.Name = "txtShortSize";
             this.txtShortSize.Size = new System.Drawing.Size(72, 20);
-            this.txtShortSize.TabIndex = 23;
+            this.txtShortSize.TabIndex = 4;
             this.txtShortSize.Text = "0";
             this.txtShortSize.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtShortSize_KeyPress);
             // 
@@ -411,39 +413,42 @@ namespace Imagizer
             this.rbSetShortSize.Location = new System.Drawing.Point(183, 45);
             this.rbSetShortSize.Name = "rbSetShortSize";
             this.rbSetShortSize.Size = new System.Drawing.Size(104, 17);
-            this.rbSetShortSize.TabIndex = 22;
+            this.rbSetShortSize.TabIndex = 3;
             this.rbSetShortSize.TabStop = true;
             this.rbSetShortSize.Text = "Set short side to:";
             this.rbSetShortSize.UseVisualStyleBackColor = true;
+            this.rbSetShortSize.CheckedChanged += new System.EventHandler(this.rbSetShortSize_CheckedChanged);
             // 
             // txtLongSide
             // 
+            this.txtLongSide.Enabled = false;
             this.txtLongSide.Location = new System.Drawing.Point(297, 19);
             this.txtLongSide.Name = "txtLongSide";
             this.txtLongSide.Size = new System.Drawing.Size(72, 20);
-            this.txtLongSide.TabIndex = 21;
+            this.txtLongSide.TabIndex = 2;
             this.txtLongSide.Text = "0";
             this.txtLongSide.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLongSide_KeyPress);
             // 
             // rbSetLongSide
             // 
             this.rbSetLongSide.AutoSize = true;
-            this.rbSetLongSide.Checked = true;
             this.rbSetLongSide.Location = new System.Drawing.Point(183, 19);
             this.rbSetLongSide.Name = "rbSetLongSide";
             this.rbSetLongSide.Size = new System.Drawing.Size(101, 17);
-            this.rbSetLongSide.TabIndex = 20;
+            this.rbSetLongSide.TabIndex = 1;
             this.rbSetLongSide.TabStop = true;
             this.rbSetLongSide.Text = "Set long side to:";
             this.rbSetLongSide.UseVisualStyleBackColor = true;
+            this.rbSetLongSide.CheckedChanged += new System.EventHandler(this.rbSetLongSide_CheckedChanged);
             // 
             // rbSetBothSize
             // 
             this.rbSetBothSize.AutoSize = true;
+            this.rbSetBothSize.Checked = true;
             this.rbSetBothSize.Location = new System.Drawing.Point(6, 19);
             this.rbSetBothSize.Name = "rbSetBothSize";
             this.rbSetBothSize.Size = new System.Drawing.Size(140, 17);
-            this.rbSetBothSize.TabIndex = 19;
+            this.rbSetBothSize.TabIndex = 0;
             this.rbSetBothSize.TabStop = true;
             this.rbSetBothSize.Text = "Set one or both sides to:";
             this.rbSetBothSize.UseVisualStyleBackColor = true;
@@ -451,7 +456,7 @@ namespace Imagizer
             // 
             // gbOutputSettings
             // 
-            this.gbOutputSettings.Controls.Add(this.cbSize);
+            this.gbOutputSettings.Controls.Add(this.cbResize);
             this.gbOutputSettings.Controls.Add(this.cbFormat);
             this.gbOutputSettings.Controls.Add(this.gbOutputDirectory);
             this.gbOutputSettings.Controls.Add(this.gbFormat);
@@ -459,18 +464,18 @@ namespace Imagizer
             this.gbOutputSettings.Location = new System.Drawing.Point(2, 72);
             this.gbOutputSettings.Name = "gbOutputSettings";
             this.gbOutputSettings.Size = new System.Drawing.Size(460, 288);
-            this.gbOutputSettings.TabIndex = 7;
+            this.gbOutputSettings.TabIndex = 1;
             this.gbOutputSettings.TabStop = false;
             this.gbOutputSettings.Text = "Output Settings";
             // 
-            // cbSize
+            // cbResize
             // 
-            this.cbSize.Location = new System.Drawing.Point(6, 88);
-            this.cbSize.Name = "cbSize";
-            this.cbSize.Size = new System.Drawing.Size(128, 16);
-            this.cbSize.TabIndex = 13;
-            this.cbSize.Text = "Resize";
-            this.cbSize.CheckedChanged += new System.EventHandler(this.cbSize_CheckedChanged);
+            this.cbResize.Location = new System.Drawing.Point(6, 88);
+            this.cbResize.Name = "cbResize";
+            this.cbResize.Size = new System.Drawing.Size(128, 16);
+            this.cbResize.TabIndex = 2;
+            this.cbResize.Text = "Resize";
+            this.cbResize.CheckedChanged += new System.EventHandler(this.cbSize_CheckedChanged);
             // 
             // cbFormat
             // 
@@ -478,7 +483,7 @@ namespace Imagizer
             this.cbFormat.Location = new System.Drawing.Point(11, 19);
             this.cbFormat.Name = "cbFormat";
             this.cbFormat.Size = new System.Drawing.Size(98, 17);
-            this.cbFormat.TabIndex = 2;
+            this.cbFormat.TabIndex = 0;
             this.cbFormat.Text = "Change Format";
             this.toolTip1.SetToolTip(this.cbFormat, "These settings will allow you to change the image format. Leave the box un-checke" +
         "d for the images to remain in their original format, or select a format and all " +
@@ -492,7 +497,7 @@ namespace Imagizer
             this.gbOutputDirectory.Location = new System.Drawing.Point(6, 231);
             this.gbOutputDirectory.Name = "gbOutputDirectory";
             this.gbOutputDirectory.Size = new System.Drawing.Size(442, 48);
-            this.gbOutputDirectory.TabIndex = 7;
+            this.gbOutputDirectory.TabIndex = 4;
             this.gbOutputDirectory.TabStop = false;
             this.gbOutputDirectory.Text = "Output Directory";
             this.toolTip1.SetToolTip(this.gbOutputDirectory, "Specify the desination location here, if it does nto already exist it will be cre" +
@@ -504,7 +509,7 @@ namespace Imagizer
             this.btnOutputBrowse.Location = new System.Drawing.Point(412, 16);
             this.btnOutputBrowse.Name = "btnOutputBrowse";
             this.btnOutputBrowse.Size = new System.Drawing.Size(24, 24);
-            this.btnOutputBrowse.TabIndex = 19;
+            this.btnOutputBrowse.TabIndex = 1;
             this.btnOutputBrowse.Text = "..";
             this.toolTip1.SetToolTip(this.btnOutputBrowse, "Specify the desination location here, if it does nto already exist it will be cre" +
         "ated. WARNING: If a file with the same name already exists in the output directo" +
@@ -516,7 +521,7 @@ namespace Imagizer
             this.txtOutputDir.Location = new System.Drawing.Point(8, 16);
             this.txtOutputDir.Name = "txtOutputDir";
             this.txtOutputDir.Size = new System.Drawing.Size(398, 20);
-            this.txtOutputDir.TabIndex = 18;
+            this.txtOutputDir.TabIndex = 0;
             this.toolTip1.SetToolTip(this.txtOutputDir, "Specify the desination location here, if it does nto already exist it will be cre" +
         "ated. WARNING: If a file with the same name already exists in the output directo" +
         "ry IT WILL BE OVERWRITTEN!");
@@ -533,7 +538,7 @@ namespace Imagizer
             this.gbFormat.Location = new System.Drawing.Point(8, 36);
             this.gbFormat.Name = "gbFormat";
             this.gbFormat.Size = new System.Drawing.Size(442, 46);
-            this.gbFormat.TabIndex = 6;
+            this.gbFormat.TabIndex = 1;
             this.gbFormat.TabStop = false;
             this.gbFormat.Text = "Format";
             this.toolTip1.SetToolTip(this.gbFormat, "These settings will allow you to change the image format. Leave the box un-checke" +
@@ -545,7 +550,7 @@ namespace Imagizer
             this.rbPng.Location = new System.Drawing.Point(190, 21);
             this.rbPng.Name = "rbPng";
             this.rbPng.Size = new System.Drawing.Size(56, 16);
-            this.rbPng.TabIndex = 6;
+            this.rbPng.TabIndex = 3;
             this.rbPng.Text = "PNG";
             this.toolTip1.SetToolTip(this.rbPng, "These settings will allow you to change the image format. Leave the box un-checke" +
         "d for the images to remain in their original format, or select a format and all " +
@@ -556,7 +561,7 @@ namespace Imagizer
             this.rbGif.Location = new System.Drawing.Point(72, 21);
             this.rbGif.Name = "rbGif";
             this.rbGif.Size = new System.Drawing.Size(56, 16);
-            this.rbGif.TabIndex = 4;
+            this.rbGif.TabIndex = 1;
             this.rbGif.Text = "GIF";
             this.toolTip1.SetToolTip(this.rbGif, "These settings will allow you to change the image format. Leave the box un-checke" +
         "d for the images to remain in their original format, or select a format and all " +
@@ -568,7 +573,7 @@ namespace Imagizer
             this.rbJpeg.Location = new System.Drawing.Point(8, 21);
             this.rbJpeg.Name = "rbJpeg";
             this.rbJpeg.Size = new System.Drawing.Size(56, 16);
-            this.rbJpeg.TabIndex = 3;
+            this.rbJpeg.TabIndex = 0;
             this.rbJpeg.TabStop = true;
             this.rbJpeg.Text = "JPEG";
             this.toolTip1.SetToolTip(this.rbJpeg, "These settings will allow you to change the image format. Leave the box un-checke" +
@@ -585,7 +590,7 @@ namespace Imagizer
             this.lblInfoMessage.Location = new System.Drawing.Point(2, 414);
             this.lblInfoMessage.Name = "lblInfoMessage";
             this.lblInfoMessage.Size = new System.Drawing.Size(460, 24);
-            this.lblInfoMessage.TabIndex = 23;
+            this.lblInfoMessage.TabIndex = 0;
             this.lblInfoMessage.Text = "lblInfoMessage";
             this.lblInfoMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblInfoMessage.Visible = false;
@@ -651,7 +656,7 @@ namespace Imagizer
         internal System.Windows.Forms.RadioButton rbPng;
         internal System.Windows.Forms.RadioButton rbGif;
         internal System.Windows.Forms.RadioButton rbJpeg;
-        internal System.Windows.Forms.CheckBox cbSize;
+        internal System.Windows.Forms.CheckBox cbResize;
         internal System.Windows.Forms.CheckBox cbFormat;
         internal System.Windows.Forms.TextBox txtWidth;
         internal System.Windows.Forms.Label lblWidth;

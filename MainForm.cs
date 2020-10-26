@@ -196,8 +196,7 @@ namespace Imagizer
 
         float GetFloat(string stringValue)
         {
-            float floatValue = 0;
-            float.TryParse(stringValue, out floatValue);
+            float.TryParse(stringValue, out float floatValue);
             return floatValue;
         }
 
@@ -222,7 +221,7 @@ namespace Imagizer
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Can't load setting: " + ex.Message);
+                Debug.WriteLine("Can't save setting: " + ex.Message);
                 return;
             }
         }
@@ -234,12 +233,10 @@ namespace Imagizer
                 SetAspectLockbuttons(false);
                 SetNoAspectLockMode();
             }
-
         }
 
         private void rbPixels_CheckedChanged(object sender, EventArgs e)
         {
-
             if (rbPixels.Checked)
             {
                 SetAspectLockbuttons(true);
@@ -263,7 +260,7 @@ namespace Imagizer
 
         private void cbSize_CheckedChanged(object sender, EventArgs e)
         {
-            gbSize.Enabled = cbSize.Checked;
+            gbSize.Enabled = cbResize.Checked;
         }
 
         private void btnInputBrowse_Click(object sender, EventArgs e)
@@ -344,8 +341,8 @@ namespace Imagizer
             }
             catch(Exception e)
             {
-                Debug.WriteLine("Can't save setting: " + e.Message);
-                //just toss it here because it probably means outr settings are blank or corrupt
+                Debug.WriteLine("Can't load setting: " + e.Message);
+                //just toss it here because it probably means our settings are blank or corrupt
             }
         }
 
@@ -353,10 +350,10 @@ namespace Imagizer
         {
             errorProvider1.Clear();
 
-            if (!IsTextBoxFilled(txtInputDir))
+            if (!IsTextBoxValidPath(txtInputDir))
                 return false;
 
-            if (!IsTextBoxFilled(txtOutputDir))
+            if (!IsTextBoxValidPath(txtOutputDir))
                 return false;
 
             if (txtInputDir.Text == txtOutputDir.Text)
@@ -369,7 +366,7 @@ namespace Imagizer
             }
 
             // Validation for Resize Parameters
-            if (cbSize.Checked) 
+            if (cbResize.Checked) 
             {
                 if (rbSetBothSize.Checked)
                 {
@@ -405,15 +402,21 @@ namespace Imagizer
                 return true;
         }
 
-        private bool IsTextBoxFilled(TextBox boxToCheck)
+        private bool IsTextBoxValidPath(TextBox boxToCheck)
         {
             if (boxToCheck.Text == string.Empty)
             {
                 errorProvider1.SetError(boxToCheck, "Must not be empty");
                 return false;
             }
-            else
-                return true;
+
+            if(! Directory.Exists(boxToCheck.Text))
+            {
+                errorProvider1.SetError(boxToCheck, "Path is invalid.");
+                return false;
+            }
+
+            return true;
         }
 
         private void WriteInfoMessage(string message)
@@ -470,6 +473,7 @@ namespace Imagizer
 
             ImgProcessor.RunImagizer(conversionParameters);
         }
+
         /// <summary>
         /// Reads parameters from application (mostly the form) and creates a
         /// ConversionParameters which can then be serialized into a settings file
@@ -477,11 +481,17 @@ namespace Imagizer
         /// <returns></returns>
         private ConversionParameters GetConversionParameters()
         {
-            ConversionParameters conversionParameters = new ConversionParameters();
+            var conversionParameters = new ConversionParameters
+            {
+                // Input Directory
+                InputDir = txtInputDir.Text,
 
-            conversionParameters.InputDir = txtInputDir.Text;
-            conversionParameters.OutputDir = txtOutputDir.Text;
+                // Include Subdirectories
+                IncludeSubDirs = cbRecusive.Checked
+            };
 
+            // Output Settings
+            // Format
             if (cbFormat.Checked)
             {
                 if (rbJpeg.Checked)
@@ -511,34 +521,40 @@ namespace Imagizer
                 }
             }
 
+            // Resize
             try
             {
-                if (cbSize.Checked)
+                if (cbResize.Checked)
                 {
                     if(rbSetBothSize.Checked)
                     {
+                        // Set one or both side to
                         conversionParameters.ResizeMode = ResizeMode.BothSide;
-                        conversionParameters.NewHeight = int.Parse(txtHeight.Text);
-                        conversionParameters.NewWidth = int.Parse(txtWidth.Text);
+                        conversionParameters.ResizeHeight = int.Parse(txtHeight.Text);
+                        conversionParameters.ResizeWidth = int.Parse(txtWidth.Text);
                         if (rbPixels.Checked)
                             conversionParameters.ResizeBothSideMode = ResizeBothSideMode.Pixels;
-                        else if (cbSize.Checked && rbPercent.Checked)
+                        else if (cbResize.Checked && rbPercent.Checked)
                             conversionParameters.ResizeBothSideMode = ResizeBothSideMode.Percent;
+
+                        conversionParameters.AspectLockState = _aspectLockState;
                     }
                     else if (rbSetLongSide.Checked)
                     {
+                        // Set long side to
                         conversionParameters.ResizeMode = ResizeMode.LongSide;
-                        conversionParameters.NewLong = int.Parse(txtLongSide.Text);
+                        conversionParameters.ResizeLong = int.Parse(txtLongSide.Text);
                     }
                     else if (rbSetShortSize.Checked)
                     {
+                        // Set short side to
                         conversionParameters.ResizeMode = ResizeMode.ShortSide;
-                        conversionParameters.NewShort = int.Parse(txtShortSize.Text);
+                        conversionParameters.ResizeShort = int.Parse(txtShortSize.Text);
                     }
                     if(rbSetImageSize.Checked)
                     {
                         conversionParameters.ResizeMode = ResizeMode.ImageSize;
-                        conversionParameters.NewImageSize = float.Parse(txtImageSize.Text);
+                        conversionParameters.ResizeImageSize = float.Parse(txtImageSize.Text);
                     }
                 }
                 else
@@ -549,9 +565,14 @@ namespace Imagizer
                 throw new ApplicationException(string.Format("Make sure there are only numbers and not letters or{0}something in the height and width boxes.", Environment.NewLine), ex);
             }
 
-            conversionParameters.AspectLockState = _aspectLockState;
+            conversionParameters.Resize = cbResize.Checked;
+
+            // Output Directory
+            conversionParameters.OutputDir = txtOutputDir.Text;
+
+            // Threading Setup
             conversionParameters.NumThreads = int.Parse(txtThreadCount.Text);
-            conversionParameters.IncludeSubDirs = cbRecusive.Checked;
+
             return conversionParameters;
         }
 
@@ -562,60 +583,106 @@ namespace Imagizer
         /// <param name="conversionParameters">ConversionParameters object</param>
         private void SetConversionParameters(ConversionParameters conversionParameters)
         {
-            txtThreadCount.Text = conversionParameters.NumThreads.ToString();
+            // Input Directory
             txtInputDir.Text = conversionParameters.InputDir;
-            txtOutputDir.Text = conversionParameters.OutputDir;
 
-            _aspectLockState = AspectLockState.Disabled;
+            // Include Subdirectories
+            cbRecusive.Checked = conversionParameters.IncludeSubDirs;
 
-            switch (conversionParameters.AspectLockState)
-            {
-                case AspectLockState.LockHeight:
-                    SetLockHeightMode();
-                    break;
-                case AspectLockState.LockWidth:
-                    SetLockWidthMode();
-                    break;
-            }
-
+            // Output Settings
             if (conversionParameters.ImageFormat != null && conversionParameters.NewExtention != null)
                 cbFormat.Checked = true;
 
+            // Format
             if (conversionParameters.ImageFormat == ImageFormat.Jpeg)
                 rbJpeg.Checked = true;
-
             else if (conversionParameters.ImageFormat == ImageFormat.Gif)
                 rbGif.Checked = true;
-
             else if (conversionParameters.ImageFormat == ImageFormat.Bmp)
                 rbBmp.Checked = true;
-
             else if (conversionParameters.ImageFormat == ImageFormat.Png)
                 rbPng.Checked = true;
-
             else if (conversionParameters.ImageFormat == ImageFormat.Tiff)
                 rbTiff.Checked = true;
 
-            txtHeight.Text = conversionParameters.NewHeight.ToString();
-            txtWidth.Text = conversionParameters.NewWidth.ToString();
+            // Resize
+            cbResize.Checked = true;
 
-            cbRecusive.Checked = conversionParameters.IncludeSubDirs;
-
-            rbPercent.Checked = false;
-            rbPixels.Checked = false;
-
-            switch (conversionParameters.ResizeBothSideMode)
+            switch (conversionParameters.ResizeMode)
             {
-                case ResizeBothSideMode.Percent:
-                    rbPercent.Checked = true;
-                    cbSize.Checked = true;
+                case ResizeMode.BothSide:
+                    rbSetBothSize.Checked = true;
+                    txtLongSide.Text = conversionParameters.ResizeLong.ToString();
+
+                    txtHeight.Text = conversionParameters.ResizeHeight.ToString();
+                    txtWidth.Text = conversionParameters.ResizeWidth.ToString();
+
+                    _aspectLockState = AspectLockState.Disabled;
+
+                    switch (conversionParameters.AspectLockState)
+                    {
+                        case AspectLockState.LockHeight:
+                            SetLockHeightMode();
+                            break;
+                        case AspectLockState.LockWidth:
+                            SetLockWidthMode();
+                            break;
+                    }
+
+                    rbPercent.Checked = false;
+                    rbPixels.Checked = false;
+
+                    switch (conversionParameters.ResizeBothSideMode)
+                    {
+                        case ResizeBothSideMode.Percent:
+                            rbPercent.Checked = true;
+                            cbResize.Checked = true;
+                            break;
+                        case ResizeBothSideMode.Pixels:
+                            rbPixels.Checked = true;
+                            cbResize.Checked = true;
+                            break;
+                    }
+
                     break;
-                case ResizeBothSideMode.Pixels:
-                    rbPixels.Checked = true;
-                    cbSize.Checked = true;
+                case ResizeMode.LongSide:
+                    rbSetLongSide.Checked = true;
+                    txtLongSide.Text = conversionParameters.ResizeLong.ToString();
+                    break;
+                case ResizeMode.ShortSide:
+                    rbSetShortSize.Checked = true;
+                    txtShortSize.Text = conversionParameters.ResizeShort.ToString();
+                    break;
+                case ResizeMode.ImageSize:
+                    rbSetImageSize.Checked = true;
+                    txtImageSize.Text = conversionParameters.ResizeImageSize.ToString();
+                    break;
+                default:
+                    cbResize.Checked = false;
                     break;
             }
+
+            // Output Directory
+            txtOutputDir.Text = conversionParameters.OutputDir;
+
+            // Threading Setup
+            txtThreadCount.Text = conversionParameters.NumThreads.ToString();
         }
         #endregion
+
+        private void rbSetLongSide_CheckedChanged(object sender, EventArgs e)
+        {
+            txtLongSide.Enabled = rbSetLongSide.Checked;
+        }
+
+        private void rbSetShortSize_CheckedChanged(object sender, EventArgs e)
+        {
+            txtShortSize.Enabled = rbSetShortSize.Checked;
+        }
+
+        private void rbSetImageSize_CheckedChanged(object sender, EventArgs e)
+        {
+            txtImageSize.Enabled = rbSetImageSize.Checked;
+        }
     }
 }
